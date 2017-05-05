@@ -1,18 +1,40 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
+import Player from './Player';
+import Game from './Game';
 
 class App extends Component {
+  state = { name: '', edit: true };
+
+  toggleEdit = () => {
+    this.setState( (state) => {
+      return { edit: !state.edit };
+    }); 
+  }
+
+  submitName = (e) => {
+    //this is where we could do a network request to update the database
+    e.preventDefault();
+    this.toggleEdit();
+  }
+
+  changeName = (e) => {
+    // this is for our controlled component so it sets state and passes it down 
+    this.setState({ name: e.target.value });
+  }
+
   render() {
-    return (
-      <div className="App">
-        <div className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h2>Welcome to React</h2>
-        </div>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+    let { state: { name, edit }, changeName, submitName, toggleEdit } = this;
+    return(
+      <div>
+        { edit ? 
+          <Player 
+            name={ name } 
+            handleChange={ changeName } 
+            handleSubmit={ submitName }
+          /> :
+          <Game player={ name } toggleEdit={ toggleEdit } />
+        }
       </div>
     );
   }
