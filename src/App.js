@@ -1,7 +1,14 @@
 import React, { Component } from 'react';
 import './App.css';
-import Player from './Player';
-import Game from './Game';
+import NavBar from './NavBar';
+import { Switch, Route } from 'react-router-dom';
+import NoMatch from './NoMatch';
+import About from './About';
+import Rules from './Rules';
+import Scores from './Scores';
+import Yahtzee from './Yahtzee';
+import ProtectedRoute from './ProtectedRoute';
+import Login from './Login';
 
 class App extends Component {
   state = { name: '', edit: true };
@@ -27,14 +34,15 @@ class App extends Component {
     let { state: { name, edit }, changeName, submitName, toggleEdit } = this;
     return(
       <div>
-        { edit ? 
-          <Player 
-            name={ name } 
-            handleChange={ changeName } 
-            handleSubmit={ submitName }
-          /> :
-          <Game player={ name } toggleEdit={ toggleEdit } />
-        }
+        <NavBar />
+        <Switch>
+          <ProtectedRoute exact path='/' component={Yahtzee} />
+          <Route exact path="/about" component={About} />
+          <Route exact path="/rules" component={Rules} />
+          <Route exact path="/scores" component={Scores} />
+          <Route exact path="/login" component={Login} />
+          <Route component={NoMatch} />
+        </Switch>
       </div>
     );
   }

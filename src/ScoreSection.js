@@ -2,7 +2,7 @@ import React from 'react';
 import ScoreRow from './ScoreRow';
 
 const total = (score, label) => (
-  <li
+  <li 
     key={label}
     className="collection-item"
   >
@@ -16,7 +16,7 @@ const total = (score, label) => (
 const generateTotals = (scores, label) => {
   const sectionScores = []
   const sectionTotal = scores.reduce( (total, entry) => {
-    let score = entry.score || 0
+    let score = entry.score || 0 
     return total + score
   }, 0)
 
@@ -36,13 +36,7 @@ const ScoreSection = ({ scores, label, updateScore, canScore }) => (
     <h5>{label} Section</h5>
     <ul className="collection">
       { scores.map( (score, i) => {
-          return (
-            <ScoreRow 
-              key={i} {...score} 
-              updateScore={updateScore} 
-              canScore={canScore} 
-            />
-          )
+          return (<ScoreRow key={i} {...score} updateScore={updateScore} canScore={canScore} />)
         })
       }
       { generateTotals(scores, label) }

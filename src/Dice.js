@@ -11,20 +11,19 @@ const images = { d1, d2, d3, d4, d5, d6 }
 const styles = {
   dice: { 
     width: '100%',
-    cursor: 'pointer',  
+    cursor: 'pointer',
   },
-
-  selected: {
-    borderBottom: 'solid 4px blue',
-  },
+  kept: {
+    borderBottom: 'solid 2px blue'
+  }
 }
 
 const Dice = ({ value, index, kept, toggleKept }) => (
-  <div className='col s12 m2'>
+  <div className="col s12 m2">
     <img 
-      style={ kept ? {...styles.dice, ...styles.selected} : styles.dice }
+      style={kept ? {...styles.dice, ...styles.kept} : styles.dice} 
       src={images[`d${value}`]} 
-      onClick={ () => toggleKept(index) }
+      onClick={() => toggleKept(index)}
     />
   </div>
 )

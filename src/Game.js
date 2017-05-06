@@ -2,28 +2,20 @@ import React from 'react';
 import Board from './Board';
 import ScoreCard from './ScoreCard';
 
-class Game extends React.Component { 
-  state = { roll: 0, dice: [...new Array(5)], keep: [], endGame: false };
+class Game extends React.Component {
+  state = { roll: 0, dice: [...new Array(5)], keep: [], endGame: false }
 
-  endGame = () => {
-    if(!this.state.endGame)
-      this.setState({ endGame: true });
-  }
-
-  newGame = () => {
-    this.resetRoll();
-    this.setState({ endGame: false });
+  resetRoll = () => {
+    this.setState({ roll: 0, dice: [...new Array(5)], keep: [] });
   }
 
   rollDice = () => {
-    let { keep } = this.state;
-
+    let { keep } = this.state; 
     let dice = this.state.dice.map( (el, i) => {
       if (keep.includes(i))
         return el
       return Math.floor(Math.random() * 6) + 1
     });
-  
     this.setState( (state) => {
       return { dice, roll: state.roll + 1 }
     });
@@ -41,14 +33,20 @@ class Game extends React.Component {
     this.setState({ keep: updatedKeep })
   }
 
-  resetRoll = () => {
-    this.setState({ roll: 0, dice: [...new Array(5)], keep: {} });
+  endGame = () => {
+    if (!this.state.endGame)
+      this.setState({ endGame: true });
+  }
+
+  newGame = () => {
+    this.resetRoll();
+    this.setState({ endGame: false });
   }
 
   render() {
-    let { toggleEdit, player } = this.props;
+    let { player, editPlayer } = this.props;
     let { roll, dice, keep, endGame } = this.state;
-    return(
+    return (
       <div>
         <div className="row">
           <div className="col s12">
@@ -56,45 +54,41 @@ class Game extends React.Component {
               <h4>Welcome {player}</h4>
             </div>
             <div className="col s6">
-              <button 
-                className="btn btn-flat right" 
-                onClick={toggleEdit}>
-                  Edit Name
-              </button>
+              <button className="btn btn-flat right" onClick={editPlayer}>Edit Name</button>
             </div>
           </div>
           <div style={styles.fullHeight} className="col s12 m8 green lighten-3">
-            { endGame ? 
-              <h1 className='center'>Game Over</h1> :
+            { endGame ?
+              <h1 className="center">Game Over</h1> :
               <Board 
                 roll={roll} 
                 dice={dice} 
-                rollDice={this.rollDice}
-                keep={keep}
+                keep={keep} 
+                rollDice={this.rollDice} 
                 toggleKept={this.toggleKept}
               />
             }
           </div>
           <div style={styles.fullHeight} className="col s12 m4 purple lighten-3">
-            <ScoreCard
-              roll={roll} 
+            <ScoreCard 
               dice={dice} 
+              roll={roll} 
               resetRoll={this.resetRoll} 
-              endGame={this.endGame}
-              newGame={this.endGame}
-              startGame={this.startGame}
+              endGame={this.endGame} 
+              newGame={this.newGame} 
+              startNew={this.state.endGame} 
             />
           </div>
         </div>
       </div>
     )
   }
-};
+}
 
 const styles = {
   fullHeight: {
-    height: 'calc(100vh - 67px)',
+    height: 'calc(165vh - 67px)'
   }
 }
 
-export default Game;
+export default Game
